@@ -1,0 +1,4 @@
+target-version = "py39"
+
+[lint.per-file-ignores]
+"__init__.py" = ["F403"]
