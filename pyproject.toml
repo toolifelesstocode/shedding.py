@@ -5,7 +5,9 @@ description = "A simple and easy-to-use package wrapping the EskomSePush load sh
 authors = [
     {name = "spifory", email = "spifory@protonmail.com"},
 ]
-dependencies = []
+dependencies = [
+    "aiohttp>=3.10.3",
+]
 requires-python = ">=3.9"
 readme = "README.md"
 license = {text = "MIT"}
