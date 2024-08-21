@@ -9,6 +9,17 @@ from .. import types
 if t.TYPE_CHECKING:
     from ..api.client import Client
 
+__all__: t.Sequence[str] = (
+    "BaseStage",
+    "Stage",
+    "BaseStatusRegion",
+    "StatusRegion",
+    "BaseNestedStatus",
+    "NestedStatus",
+    "BaseStatus",
+    "Status",
+)
+
 
 class BaseStage(abc.ABC):
     __slot__ = ()
@@ -143,7 +154,7 @@ class Status(BaseStatus):
     ) -> te.Self:
         return cls(
             client=client,
-            status=NestedStatus.from_payload(client, payload["status"])
+            status=NestedStatus.from_payload(client, payload["status"]),
         )
 
     async def fetch_status(

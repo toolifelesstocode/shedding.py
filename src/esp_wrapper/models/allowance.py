@@ -10,6 +10,13 @@ from .. import types
 if t.TYPE_CHECKING:
     from ..api.client import Client
 
+__all__ = (
+    "BaseNestedAllowance",
+    "NestedAllowance",
+    "BaseAllowance",
+    "Allowance",
+)
+
 
 class BaseNestedAllowance(abc.ABC):
     __slots__ = ()
@@ -71,7 +78,10 @@ class Allowance(BaseAllowance):
     ) -> te.Self:
         return cls(
             client=client,
-            allowance=NestedAllowance.from_payload(client, payload=payload["allowance"]),
+            allowance=NestedAllowance.from_payload(
+                client,
+                payload=payload["allowance"],
+            ),
         )
 
     async def fetch_allowance(self):

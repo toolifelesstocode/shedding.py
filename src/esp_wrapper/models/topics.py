@@ -11,6 +11,13 @@ from .. import types
 if t.TYPE_CHECKING:
     from ..api.client import Client
 
+__all__: t.Sequence[str] = (
+    "BaseNestedNearbyTopic",
+    "NestedNearbyTopic",
+    "BaseNearbyTopic",
+    "NearbyTopic",
+)
+
 
 class BaseNestedNearbyTopic(abc.ABC):
     __slots__ = ()

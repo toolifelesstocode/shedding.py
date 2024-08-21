@@ -3,6 +3,8 @@ import typing as t
 if t.TYPE_CHECKING:
     from aiohttp import ClientSession
 
+__all__: t.Sequence[str] = ("Client",)
+
 
 class Client:
     __slots__ = ("_http", "auth_token")
