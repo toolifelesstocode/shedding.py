@@ -29,4 +29,4 @@ class Client:
         headers = {"Token": str(auth)}
 
         async with self.http.request(method, full_url, headers=headers) as resp:
-            return await resp.text()
+            return await resp.json()
