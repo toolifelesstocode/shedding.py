@@ -13,6 +13,25 @@ dependencies = [
 requires-python = ">=3.9"
 readme = "README.md"
 license = {text = "MIT"}
+keywords = ["eskom", "load shedding", "eskomsepush"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Framework :: aiohttp",
+    "Framework :: AsyncIO",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Internet",
+    "Topic :: Software Development :: Libraries",
+    "Typing :: Typed",
+]
+
+[project.urls]
+Homepage = "https://codeberg.org/spf/shedding.py"
+Repository = "https://codeberg.org/spf/shedding.py"
+Documentation = "https://sheddingpy.rtfd.io"
 
 [build-system]
 requires = ["pdm-backend"]
