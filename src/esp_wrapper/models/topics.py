@@ -4,12 +4,9 @@ import typing as t
 import attrs
 import typing_extensions as te
 
-from esp_wrapper.api.client import Client
-
-from .. import types
-
 if t.TYPE_CHECKING:
     from ..api.client import Client
+    from .. import types
 
 __all__: t.Sequence[str] = (
     "BaseNestedNearbyTopic",
@@ -32,14 +29,16 @@ class BaseNestedNearbyTopic(abc.ABC):
     @classmethod
     @abc.abstractmethod
     def from_payload(
-        cls: type[te.Self], client: Client, payload: types.NestedNearbyTopicInformation
+        cls: type[te.Self],
+        client: "Client",
+        payload: "types.NestedNearbyTopicInformation",
     ) -> te.Self:
         pass
 
 
 @attrs.define(kw_only=True, slots=True)
 class NestedNearbyTopic(BaseNestedNearbyTopic):
-    client: Client
+    client: "Client"
 
     active: datetime.datetime = attrs.field(repr=True)
     body: str = attrs.field(repr=False)
@@ -50,7 +49,9 @@ class NestedNearbyTopic(BaseNestedNearbyTopic):
 
     @classmethod
     def from_payload(
-        cls: type[te.Self], client: Client, payload: types.NestedNearbyTopicInformation
+        cls: type[te.Self],
+        client: Client,
+        payload: "types.NestedNearbyTopicInformation",
     ) -> te.Self:
         return cls(
             client=client,
@@ -71,20 +72,24 @@ class BaseNearbyTopic(abc.ABC):
     @classmethod
     @abc.abstractmethod
     def from_payload(
-        cls: type[te.Self], client: Client, payload: types.NearbyTopicInformation
+        cls: type[te.Self],
+        client: "Client",
+        payload: "types.NearbyTopicInformation",
     ) -> te.Self:
         pass
 
 
 @attrs.define(kw_only=True, slots=True)
 class NearbyTopic(BaseNearbyTopic):
-    client: Client
+    client: "Client"
 
     topics: t.List[NestedNearbyTopic] = attrs.field(repr=False)
 
     @classmethod
     def from_payload(
-        cls: type[te.Self], client: Client, payload: types.NearbyTopicInformation
+        cls: type[te.Self],
+        client: "Client",
+        payload: "types.NearbyTopicInformation",
     ) -> te.Self:
         return cls(
             client=client,

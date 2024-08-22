@@ -3,12 +3,9 @@ import attrs
 import typing_extensions as te
 import abc
 
-from esp_wrapper.api.client import Client
-
-from .. import types
-
 if t.TYPE_CHECKING:
     from ..api.client import Client
+    from .. import types
 
 __all__ = (
     "BaseNestedAllowance",
@@ -28,14 +25,16 @@ class BaseNestedAllowance(abc.ABC):
     @classmethod
     @abc.abstractmethod
     def from_payload(
-        cls: type[te.Self], client: Client, payload: types.NestedAllowance
+        cls: type[te.Self],
+        client: "Client",
+        payload: "types.NestedAllowance",
     ) -> te.Self:
         pass
 
 
 @attrs.define(kw_only=True, slots=True)
 class NestedAllowance(BaseNestedAllowance):
-    client: Client
+    client: "Client"
 
     count: int = attrs.field(repr=True)
     limit: int = attrs.field(repr=True)
@@ -43,7 +42,9 @@ class NestedAllowance(BaseNestedAllowance):
 
     @classmethod
     def from_payload(
-        cls: type[te.Self], client: Client, payload: types.NestedAllowance
+        cls: type[te.Self],
+        client: "Client",
+        payload: "types.NestedAllowance",
     ) -> te.Self:
         return cls(
             client=client,
@@ -61,20 +62,24 @@ class BaseAllowance(abc.ABC):
     @classmethod
     @abc.abstractmethod
     def from_payload(
-        cls: type[te.Self], client: Client, payload: types.Allowance
+        cls: type[te.Self],
+        client: "Client",
+        payload: "types.Allowance",
     ) -> te.Self:
         pass
 
 
 @attrs.define(kw_only=True, slots=True)
 class Allowance(BaseAllowance):
-    client: Client
+    client: "Client"
 
     allowance: NestedAllowance = attrs.field(repr=False)
 
     @classmethod
     def from_payload(
-        cls: type[te.Self], client: Client, payload: types.Allowance
+        cls: type[te.Self],
+        client: "Client",
+        payload: "types.Allowance",
     ) -> te.Self:
         return cls(
             client=client,

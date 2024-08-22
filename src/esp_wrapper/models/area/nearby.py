@@ -3,12 +3,9 @@ import typing_extensions as te
 import attrs
 import abc
 
-from esp_wrapper.api.client import Client
-
-from ... import types
-
 if t.TYPE_CHECKING:
     from ...api.client import Client
+    from ... import types
 
 __all__: t.Sequence[str] = (
     "BaseNestedNearbyArea",
@@ -30,15 +27,15 @@ class BaseNestedNearbyArea(abc.ABC):
     @abc.abstractmethod
     def from_payload(
         cls: type[te.Self],
-        client: Client,
-        payload: types.NestedNearbyAreaInformation,
+        client: "Client",
+        payload: "types.NestedNearbyAreaInformation",
     ) -> te.Self:
         pass
 
 
 @attrs.define(kw_only=True, slots=True)
 class NestedNearbyArea(BaseNestedNearbyArea):
-    client: Client
+    client: "Client"
 
     count: int = attrs.field(repr=True)
     id: str = attrs.field(repr=True)
@@ -48,8 +45,8 @@ class NestedNearbyArea(BaseNestedNearbyArea):
     @classmethod
     def from_payload(
         cls: type[te.Self],
-        client: Client,
-        payload: types.NestedNearbyAreaInformation,
+        client: "Client",
+        payload: "types.NestedNearbyAreaInformation",
     ) -> te.Self:
         return cls(
             client=client,
@@ -69,8 +66,8 @@ class BaseNearbyArea(abc.ABC):
     @abc.abstractmethod
     def from_payload(
         cls: type[te.Self],
-        client: Client,
-        payload: types.NearbyAreaInformation,
+        client: "Client",
+        payload: "types.NearbyAreaInformation",
     ) -> te.Self:
         pass
 
@@ -84,8 +81,8 @@ class NearbyArea(BaseNearbyArea):
     @classmethod
     def from_payload(
         cls: type[te.Self],
-        client: Client,
-        payload: types.NearbyAreaInformation,
+        client: "Client",
+        payload: "types.NearbyAreaInformation",
     ) -> te.Self:
         return cls(
             client=client,

@@ -4,12 +4,9 @@ import typing_extensions as te
 import abc
 import attrs
 
-from esp_wrapper.api.client import Client
-
-from ... import types
-
 if t.TYPE_CHECKING:
     from ...api.client import Client
+    from ... import types
 
 __all__: t.Sequence[str] = (
     "BaseAreaEvent",
@@ -36,15 +33,15 @@ class BaseAreaEvent(abc.ABC):
     @abc.abstractmethod
     def from_payload(
         cls: type[te.Self],
-        client: Client,
-        payload: types.AreaEvent,
+        client: "Client",
+        payload: "types.AreaEvent",
     ) -> te.Self:
         pass
 
 
 @attrs.define(kw_only=True, slots=True)
 class AreaEvent(BaseAreaEvent):
-    client: Client
+    client: "Client"
 
     end: datetime.datetime = attrs.field(repr=True)
     note: str = attrs.field(repr=True)
@@ -54,7 +51,7 @@ class AreaEvent(BaseAreaEvent):
     def from_payload(
         cls: type[te.Self],
         client: Client,
-        payload: types.AreaEvent,
+        payload: "types.AreaEvent",
     ) -> te.Self:
         return cls(
             client=client,
@@ -74,15 +71,15 @@ class BaseNestedArea(abc.ABC):
     @abc.abstractmethod
     def from_payload(
         cls: type[te.Self],
-        client: Client,
-        payload: types.NestedAreaInformation,
+        client: "Client",
+        payload: "types.NestedAreaInformation",
     ) -> te.Self:
         pass
 
 
 @attrs.define(kw_only=True, slots=True)
 class NestedArea(BaseNestedArea):
-    client: Client
+    client: "Client"
 
     name: str = attrs.field(repr=True)
     region: str = attrs.field(repr=True)
@@ -90,8 +87,8 @@ class NestedArea(BaseNestedArea):
     @classmethod
     def from_payload(
         cls: type[te.Self],
-        client: Client,
-        payload: types.NestedAreaInformation,
+        client: "Client",
+        payload: "types.NestedAreaInformation",
     ) -> te.Self:
         return cls(
             client=client,
@@ -111,15 +108,15 @@ class BaseAreaScheduleDay(abc.ABC):
     @abc.abstractmethod
     def from_payload(
         cls: type[te.Self],
-        client: Client,
-        payload: types.AreaScheduleDay,
+        client: "Client",
+        payload: "types.AreaScheduleDay",
     ) -> te.Self:
         pass
 
 
 @attrs.define(kw_only=True, slots=True)
 class AreaScheduleDay(BaseAreaScheduleDay):
-    client: Client
+    client: "Client"
 
     date: datetime.date = attrs.field(repr=True)
     name: str = attrs.field(repr=True)
@@ -128,8 +125,8 @@ class AreaScheduleDay(BaseAreaScheduleDay):
     @classmethod
     def from_payload(
         cls: type[te.Self],
-        client: Client,
-        payload: types.AreaScheduleDay,
+        client: "Client",
+        payload: "types.AreaScheduleDay",
     ) -> te.Self:
         return cls(
             client=client,
@@ -150,7 +147,7 @@ class BaseAreaSchedule(abc.ABC):
     def from_payload(
         cls: type[te.Self],
         client: Client,
-        payload: types.AreaSchedule,
+        payload: "types.AreaSchedule",
     ) -> te.Self:
         pass
 
@@ -165,8 +162,8 @@ class AreaSchedule(BaseAreaSchedule):
     @classmethod
     def from_payload(
         cls: type[te.Self],
-        client: Client,
-        payload: types.AreaSchedule,
+        client: "Client",
+        payload: "types.AreaSchedule",
     ) -> te.Self:
         return cls(
             client=client,
@@ -179,32 +176,32 @@ class BaseArea(abc.ABC):
     __slots__ = ()
 
     events: t.List[BaseAreaEvent]
-    info: BaseNestedArea
-    schedule: BaseAreaSchedule
+    info: "BaseNestedArea"
+    schedule: "BaseAreaSchedule"
 
     @classmethod
     @abc.abstractmethod
     def from_payload(
         cls: type[te.Self],
-        client: Client,
-        payload: types.AreaInformation,
+        client: "Client",
+        payload: "types.AreaInformation",
     ) -> te.Self:
         pass
 
 
 @attrs.define(kw_only=True, slots=True)
 class Area(BaseArea):
-    client: Client
+    client: "Client"
 
     events: t.List[AreaEvent] = attrs.field(repr=True)
-    info: NestedArea = attrs.field(repr=True)
-    schedule: AreaSchedule = attrs.field(repr=True)
+    info: "NestedArea" = attrs.field(repr=True)
+    schedule: "AreaSchedule" = attrs.field(repr=True)
 
     @classmethod
     def from_payload(
         cls: type[te.Self],
-        client: Client,
-        payload: types.AreaInformation,
+        client: "Client",
+        payload: "types.AreaInformation",
     ) -> te.Self:
         return cls(
             client=client,

@@ -4,10 +4,9 @@ import typing as t
 import attrs
 import typing_extensions as te
 
-from .. import types
-
 if t.TYPE_CHECKING:
     from ..api.client import Client
+    from .. import types
 
 __all__: t.Sequence[str] = (
     "BaseStage",
@@ -30,21 +29,25 @@ class BaseStage(abc.ABC):
     @classmethod
     @abc.abstractmethod
     def from_payload(
-        cls: type[te.Self], client: Client, payload: types.StageInformation
+        cls: type[te.Self],
+        client: "Client",
+        payload: "types.StageInformation",
     ) -> te.Self:
         pass
 
 
 @attrs.define(kw_only=True, slots=True)
 class Stage(BaseStage):
-    client: Client = attrs.field(repr=False)
+    client: "Client" = attrs.field(repr=False)
 
     stage: int = attrs.field(repr=True)
     stage_start_timestamp: datetime.datetime = attrs.field(repr=False)
 
     @classmethod
     def from_payload(
-        cls: type[te.Self], client: Client, payload: types.StageInformation
+        cls: type[te.Self],
+        client: "Client",
+        payload: "types.StageInformation",
     ) -> te.Self:
         return cls(
             client=client,
@@ -66,14 +69,16 @@ class BaseStatusRegion(abc.ABC):
     @classmethod
     @abc.abstractmethod
     def from_payload(
-        cls: type[te.Self], client: Client, payload: types.StatusInformation
+        cls: type[te.Self],
+        client: "Client",
+        payload: "types.StatusInformation",
     ) -> te.Self:
         pass
 
 
 @attrs.define(kw_only=True, slots=True)
 class StatusRegion(BaseStatusRegion):
-    client: Client
+    client: "Client"
 
     name: str = attrs.field(repr=True)
     next_stages: t.List[Stage] = attrs.field(repr=False)
@@ -82,7 +87,9 @@ class StatusRegion(BaseStatusRegion):
 
     @classmethod
     def from_payload(
-        cls: type[te.Self], client: Client, payload: types.StatusRegionInformation
+        cls: type[te.Self],
+        client: "Client",
+        payload: "types.StatusRegionInformation",
     ):
         return cls(
             client=client,
@@ -98,7 +105,7 @@ class StatusRegion(BaseStatusRegion):
 class BaseNestedStatus(abc.ABC):
     __slots__ = ()
 
-    client: Client = attrs.field()
+    client: "Client"
 
     cape_town: BaseStatusRegion
     eskom: BaseStatusRegion
@@ -106,21 +113,25 @@ class BaseNestedStatus(abc.ABC):
     @classmethod
     @abc.abstractmethod
     def from_payload(
-        cls: type[te.Self], client: Client, payload: types.NestedStatusInformation
+        cls: type[te.Self],
+        client: "Client",
+        payload: "types.NestedStatusInformation",
     ) -> te.Self:
         pass
 
 
 @attrs.define(kw_only=True, slots=True)
 class NestedStatus(BaseNestedStatus):
-    client: Client
+    client: "Client"
 
     cape_town: StatusRegion = attrs.field(repr=False)
     eskom: StatusRegion = attrs.field(repr=False)
 
     @classmethod
     def from_payload(
-        cls: type[te.Self], client: Client, payload: types.NestedStatusInformation
+        cls: type[te.Self],
+        client: "Client",
+        payload: "types.NestedStatusInformation",
     ) -> te.Self:
         return cls(
             client=client,
@@ -132,25 +143,29 @@ class NestedStatus(BaseNestedStatus):
 class BaseStatus(abc.ABC):
     __slots__ = ()
 
-    client: Client
+    client: "Client"
 
     @classmethod
     @abc.abstractmethod
     def from_payload(
-        cls: type[te.Self], client: Client, payload: types.StatusInformation
+        cls: type[te.Self],
+        client: "Client",
+        payload: "types.StatusInformation",
     ) -> te.Self:
         pass
 
 
 @attrs.define(kw_only=True, slots=True)
 class Status(BaseStatus):
-    client: Client = attrs.field(repr=False)
+    client: "Client"
 
     status: NestedStatus = attrs.field(repr=False)
 
     @classmethod
     def from_payload(
-        cls: type[te.Self], client: Client, payload: types.StatusInformation
+        cls: type[te.Self],
+        client: "Client",
+        payload: "types.StatusInformation",
     ) -> te.Self:
         return cls(
             client=client,
