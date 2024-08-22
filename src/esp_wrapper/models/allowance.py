@@ -2,6 +2,7 @@ import typing as t
 import attrs
 import typing_extensions as te
 import abc
+import builtins
 
 if t.TYPE_CHECKING:
     from ..api.client import Client
@@ -19,11 +20,11 @@ class NestedAllowance(abc.ABC):
 
     count: int = attrs.field(repr=True)
     limit: int = attrs.field(repr=True)
-    type_: str = attrs.field(repr=True)
+    type: str = attrs.field(repr=True)
 
     @classmethod
     def from_payload(
-        cls: type[te.Self],
+        cls: builtins.type[te.Self],
         client: "Client",
         payload: "types.NestedAllowance",
     ) -> te.Self:
@@ -31,7 +32,7 @@ class NestedAllowance(abc.ABC):
             client=client,
             count=payload["count"],
             limit=payload["limit"],
-            type_=payload["type"],
+            type=payload["type"],
         )
 
 

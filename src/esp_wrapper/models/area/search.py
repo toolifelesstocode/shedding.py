@@ -19,7 +19,7 @@ __all__: t.Sequence[str] = (
 class NestedAreaSearch(NestedArea):
     client: "Client" = attrs.field(repr=False)
 
-    id_: str = attrs.field(repr=True)
+    id: str = attrs.field(repr=True)
 
     @classmethod
     def from_payload(
@@ -29,7 +29,7 @@ class NestedAreaSearch(NestedArea):
     ) -> te.Self:
         return cls(
             client=client,
-            id_=payload["id"],
+            id=payload["id"],
             name=payload["name"],
             region=payload["region"],
         )
