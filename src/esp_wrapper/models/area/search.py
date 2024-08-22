@@ -3,37 +3,20 @@ import typing_extensions as te
 import attrs
 import abc
 
-from .info import BaseNestedArea
+from .info import NestedArea
 
 if t.TYPE_CHECKING:
     from ...api.client import Client
     from ... import types
 
 __all__: t.Sequence[str] = (
-    "BaseNestedAreaSearch",
     "NestedAreaSearch",
-    "BaseAreaSearch",
     "AreaSearch",
 )
 
 
-class BaseNestedAreaSearch(BaseNestedArea):
-    __slots__ = ()
-
-    id_: str
-
-    @classmethod
-    @abc.abstractmethod
-    def from_payload(
-        cls: type[te.Self],
-        client: "Client",
-        payload: "types.NestedAreaSearchInformation",
-    ) -> te.Self:
-        pass
-
-
 @attrs.define(kw_only=True, slots=True)
-class NestedAreaSearch(BaseNestedArea):
+class NestedAreaSearch(NestedArea):
     client: "Client"
 
     id_: str = attrs.field(repr=True)
@@ -44,26 +27,16 @@ class NestedAreaSearch(BaseNestedArea):
         client: "Client",
         payload: "types.NestedAreaSearchInformation",
     ) -> te.Self:
-        return cls(client=client, id_=payload["id"])
-
-
-class BaseAreaSearch(abc.ABC):
-    __slots__ = ()
-
-    areas: BaseNestedAreaSearch
-
-    @classmethod
-    @abc.abstractmethod
-    def from_payload(
-        cls: type[te.Self],
-        client: "Client",
-        payload: "types.AreaSearchInformation",
-    ) -> te.Self:
-        pass
+        return cls(
+            client=client,
+            id_=payload["id"],
+            name=payload["name"],
+            region=payload["region"],
+        )
 
 
 @attrs.define(kw_only=True, slots=True)
-class AreaSearch(BaseAreaSearch):
+class AreaSearch(abc.ABC):
     client: Client
 
     areas: t.List[NestedAreaSearch]
@@ -85,4 +58,4 @@ class AreaSearch(BaseAreaSearch):
         params = {"text": text}
         response = await self.client.request("GET", "/areas_search", params=params)
 
-        return BaseAreaSearch.from_payload(self.client, response)
+        return AreaSearch.from_payload(self.client, response)

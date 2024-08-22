@@ -9,36 +9,16 @@ if t.TYPE_CHECKING:
     from .. import types
 
 __all__: t.Sequence[str] = (
-    "BaseStage",
     "Stage",
-    "BaseStatusRegion",
     "StatusRegion",
-    "BaseNestedStatus",
     "NestedStatus",
-    "BaseStatus",
     "Status",
 )
 
 
-class BaseStage(abc.ABC):
-    __slot__ = ()
-
-    stage: int
-    stage_start_timestamp: str
-
-    @classmethod
-    @abc.abstractmethod
-    def from_payload(
-        cls: type[te.Self],
-        client: "Client",
-        payload: "types.StageInformation",
-    ) -> te.Self:
-        pass
-
-
 @attrs.define(kw_only=True, slots=True)
-class Stage(BaseStage):
-    client: "Client" = attrs.field(repr=False)
+class Stage(abc.ABC):
+    client: "Client"
 
     stage: int = attrs.field(repr=True)
     stage_start_timestamp: datetime.datetime = attrs.field(repr=False)
@@ -58,26 +38,8 @@ class Stage(BaseStage):
         )
 
 
-class BaseStatusRegion(abc.ABC):
-    __slots__ = ()
-
-    name: str
-    next_stages: t.List[BaseStage]
-    stage: str
-    stage_updated: str
-
-    @classmethod
-    @abc.abstractmethod
-    def from_payload(
-        cls: type[te.Self],
-        client: "Client",
-        payload: "types.StatusInformation",
-    ) -> te.Self:
-        pass
-
-
 @attrs.define(kw_only=True, slots=True)
-class StatusRegion(BaseStatusRegion):
+class StatusRegion(abc.ABC):
     client: "Client"
 
     name: str = attrs.field(repr=True)
@@ -102,26 +64,8 @@ class StatusRegion(BaseStatusRegion):
         )
 
 
-class BaseNestedStatus(abc.ABC):
-    __slots__ = ()
-
-    client: "Client"
-
-    cape_town: BaseStatusRegion
-    eskom: BaseStatusRegion
-
-    @classmethod
-    @abc.abstractmethod
-    def from_payload(
-        cls: type[te.Self],
-        client: "Client",
-        payload: "types.NestedStatusInformation",
-    ) -> te.Self:
-        pass
-
-
 @attrs.define(kw_only=True, slots=True)
-class NestedStatus(BaseNestedStatus):
+class NestedStatus(abc.ABC):
     client: "Client"
 
     cape_town: StatusRegion = attrs.field(repr=False)
@@ -140,23 +84,8 @@ class NestedStatus(BaseNestedStatus):
         )
 
 
-class BaseStatus(abc.ABC):
-    __slots__ = ()
-
-    client: "Client"
-
-    @classmethod
-    @abc.abstractmethod
-    def from_payload(
-        cls: type[te.Self],
-        client: "Client",
-        payload: "types.StatusInformation",
-    ) -> te.Self:
-        pass
-
-
 @attrs.define(kw_only=True, slots=True)
-class Status(BaseStatus):
+class Status(abc.ABC):
     client: "Client"
 
     status: NestedStatus = attrs.field(repr=False)

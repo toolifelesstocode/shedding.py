@@ -8,32 +8,13 @@ if t.TYPE_CHECKING:
     from .. import types
 
 __all__ = (
-    "BaseNestedAllowance",
     "NestedAllowance",
-    "BaseAllowance",
     "Allowance",
 )
 
 
-class BaseNestedAllowance(abc.ABC):
-    __slots__ = ()
-
-    count: int
-    limit: int
-    type_: str
-
-    @classmethod
-    @abc.abstractmethod
-    def from_payload(
-        cls: type[te.Self],
-        client: "Client",
-        payload: "types.NestedAllowance",
-    ) -> te.Self:
-        pass
-
-
 @attrs.define(kw_only=True, slots=True)
-class NestedAllowance(BaseNestedAllowance):
+class NestedAllowance(abc.ABC):
     client: "Client"
 
     count: int = attrs.field(repr=True)
@@ -54,23 +35,8 @@ class NestedAllowance(BaseNestedAllowance):
         )
 
 
-class BaseAllowance(abc.ABC):
-    __slots__ = ()
-
-    allowance: BaseNestedAllowance
-
-    @classmethod
-    @abc.abstractmethod
-    def from_payload(
-        cls: type[te.Self],
-        client: "Client",
-        payload: "types.Allowance",
-    ) -> te.Self:
-        pass
-
-
 @attrs.define(kw_only=True, slots=True)
-class Allowance(BaseAllowance):
+class Allowance(abc.ABC):
     client: "Client"
 
     allowance: NestedAllowance = attrs.field(repr=False)

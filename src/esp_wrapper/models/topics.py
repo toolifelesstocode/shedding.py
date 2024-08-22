@@ -9,35 +9,13 @@ if t.TYPE_CHECKING:
     from .. import types
 
 __all__: t.Sequence[str] = (
-    "BaseNestedNearbyTopic",
     "NestedNearbyTopic",
-    "BaseNearbyTopic",
     "NearbyTopic",
 )
 
 
-class BaseNestedNearbyTopic(abc.ABC):
-    __slots__ = ()
-
-    active: str
-    body: str
-    category: str
-    distance: float
-    followers: int
-    timestamp: str
-
-    @classmethod
-    @abc.abstractmethod
-    def from_payload(
-        cls: type[te.Self],
-        client: "Client",
-        payload: "types.NestedNearbyTopicInformation",
-    ) -> te.Self:
-        pass
-
-
 @attrs.define(kw_only=True, slots=True)
-class NestedNearbyTopic(BaseNestedNearbyTopic):
+class NestedNearbyTopic(abc.ABC):
     client: "Client"
 
     active: datetime.datetime = attrs.field(repr=True)
@@ -64,23 +42,8 @@ class NestedNearbyTopic(BaseNestedNearbyTopic):
         )
 
 
-class BaseNearbyTopic(abc.ABC):
-    __slots__ = ()
-
-    topics: t.List[BaseNestedNearbyTopic]
-
-    @classmethod
-    @abc.abstractmethod
-    def from_payload(
-        cls: type[te.Self],
-        client: "Client",
-        payload: "types.NearbyTopicInformation",
-    ) -> te.Self:
-        pass
-
-
 @attrs.define(kw_only=True, slots=True)
-class NearbyTopic(BaseNearbyTopic):
+class NearbyTopic(abc.ABC):
     client: "Client"
 
     topics: t.List[NestedNearbyTopic] = attrs.field(repr=False)

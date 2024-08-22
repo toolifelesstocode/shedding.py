@@ -9,38 +9,16 @@ if t.TYPE_CHECKING:
     from ... import types
 
 __all__: t.Sequence[str] = (
-    "BaseAreaEvent",
     "AreaEvent",
-    "BaseNestedArea",
     "NestedArea",
-    "BaseAreaScheduleDay",
     "AreaScheduleDay",
-    "BaseAreaSchedule",
     "AreaSchedule",
-    "BaseArea",
     "Area",
 )
 
 
-class BaseAreaEvent(abc.ABC):
-    __slots__ = ()
-
-    end: str
-    note: str
-    start: str
-
-    @classmethod
-    @abc.abstractmethod
-    def from_payload(
-        cls: type[te.Self],
-        client: "Client",
-        payload: "types.AreaEvent",
-    ) -> te.Self:
-        pass
-
-
 @attrs.define(kw_only=True, slots=True)
-class AreaEvent(BaseAreaEvent):
+class AreaEvent(abc.ABC):
     client: "Client"
 
     end: datetime.datetime = attrs.field(repr=True)
@@ -61,24 +39,8 @@ class AreaEvent(BaseAreaEvent):
         )
 
 
-class BaseNestedArea(abc.ABC):
-    __slots__ = ()
-
-    name: str
-    region: str
-
-    @classmethod
-    @abc.abstractmethod
-    def from_payload(
-        cls: type[te.Self],
-        client: "Client",
-        payload: "types.NestedAreaInformation",
-    ) -> te.Self:
-        pass
-
-
 @attrs.define(kw_only=True, slots=True)
-class NestedArea(BaseNestedArea):
+class NestedArea(abc.ABC):
     client: "Client"
 
     name: str = attrs.field(repr=True)
@@ -97,25 +59,8 @@ class NestedArea(BaseNestedArea):
         )
 
 
-class BaseAreaScheduleDay(abc.ABC):
-    __slots__ = ()
-
-    date: str
-    name: str
-    stages: t.List[t.List[str]]
-
-    @classmethod
-    @abc.abstractmethod
-    def from_payload(
-        cls: type[te.Self],
-        client: "Client",
-        payload: "types.AreaScheduleDay",
-    ) -> te.Self:
-        pass
-
-
 @attrs.define(kw_only=True, slots=True)
-class AreaScheduleDay(BaseAreaScheduleDay):
+class AreaScheduleDay(abc.ABC):
     client: "Client"
 
     date: datetime.date = attrs.field(repr=True)
@@ -136,24 +81,8 @@ class AreaScheduleDay(BaseAreaScheduleDay):
         )
 
 
-class BaseAreaSchedule(abc.ABC):
-    __slots__ = ()
-
-    days: t.List[BaseAreaScheduleDay]
-    source: str
-
-    @classmethod
-    @abc.abstractmethod
-    def from_payload(
-        cls: type[te.Self],
-        client: Client,
-        payload: "types.AreaSchedule",
-    ) -> te.Self:
-        pass
-
-
 @attrs.define(kw_only=True, slots=True)
-class AreaSchedule(BaseAreaSchedule):
+class AreaSchedule(abc.ABC):
     client: Client
 
     days: t.List[AreaScheduleDay] = attrs.field(repr=True)
@@ -172,25 +101,8 @@ class AreaSchedule(BaseAreaSchedule):
         )
 
 
-class BaseArea(abc.ABC):
-    __slots__ = ()
-
-    events: t.List[BaseAreaEvent]
-    info: "BaseNestedArea"
-    schedule: "BaseAreaSchedule"
-
-    @classmethod
-    @abc.abstractmethod
-    def from_payload(
-        cls: type[te.Self],
-        client: "Client",
-        payload: "types.AreaInformation",
-    ) -> te.Self:
-        pass
-
-
 @attrs.define(kw_only=True, slots=True)
-class Area(BaseArea):
+class Area(abc.ABC):
     client: "Client"
 
     events: t.List[AreaEvent] = attrs.field(repr=True)

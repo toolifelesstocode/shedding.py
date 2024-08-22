@@ -8,33 +8,13 @@ if t.TYPE_CHECKING:
     from ... import types
 
 __all__: t.Sequence[str] = (
-    "BaseNestedNearbyArea",
     "NestedNearbyArea",
-    "BaseNearbyArea",
     "NearbyArea",
 )
 
 
-class BaseNestedNearbyArea(abc.ABC):
-    __slots__ = ()
-
-    count: int
-    id: str
-    name: str
-    region: str
-
-    @classmethod
-    @abc.abstractmethod
-    def from_payload(
-        cls: type[te.Self],
-        client: "Client",
-        payload: "types.NestedNearbyAreaInformation",
-    ) -> te.Self:
-        pass
-
-
 @attrs.define(kw_only=True, slots=True)
-class NestedNearbyArea(BaseNestedNearbyArea):
+class NestedNearbyArea(abc.ABC):
     client: "Client"
 
     count: int = attrs.field(repr=True)
@@ -57,23 +37,8 @@ class NestedNearbyArea(BaseNestedNearbyArea):
         )
 
 
-class BaseNearbyArea(abc.ABC):
-    __slots__ = ()
-
-    areas: t.List[BaseNestedNearbyArea]
-
-    @classmethod
-    @abc.abstractmethod
-    def from_payload(
-        cls: type[te.Self],
-        client: "Client",
-        payload: "types.NearbyAreaInformation",
-    ) -> te.Self:
-        pass
-
-
 @attrs.define(kw_only=True, slots=True)
-class NearbyArea(BaseNearbyArea):
+class NearbyArea(abc.ABC):
     client: Client
 
     areas: t.List[NestedNearbyArea] = attrs.field(repr=True)
