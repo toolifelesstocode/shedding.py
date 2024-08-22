@@ -6,10 +6,10 @@ import attrs
 
 from esp_wrapper.api.client import Client
 
-from .. import types
+from ... import types
 
 if t.TYPE_CHECKING:
-    from ..api.client import Client
+    from ...api.client import Client
 
 
 class BaseAreaEvent(abc.ABC):
