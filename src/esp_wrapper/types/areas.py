@@ -29,7 +29,7 @@ class NestedAreaSearchInformation(NestedAreaInformation):
 
 
 class AreaScheduleDay(t.TypedDict):
-    day: str
+    date: str
     name: str
     stages: t.List[t.List[str]]
 
