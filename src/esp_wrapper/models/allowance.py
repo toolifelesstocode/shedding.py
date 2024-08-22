@@ -15,7 +15,7 @@ __all__ = (
 
 @attrs.define(kw_only=True, slots=True)
 class NestedAllowance(abc.ABC):
-    client: "Client"
+    client: "Client" = attrs.field(repr=False)
 
     count: int = attrs.field(repr=True)
     limit: int = attrs.field(repr=True)
@@ -37,7 +37,7 @@ class NestedAllowance(abc.ABC):
 
 @attrs.define(kw_only=True, slots=True)
 class Allowance(abc.ABC):
-    client: "Client"
+    client: "Client" = attrs.field(repr=False)
 
     allowance: NestedAllowance = attrs.field(repr=False)
 

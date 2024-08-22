@@ -17,7 +17,7 @@ __all__: t.Sequence[str] = (
 
 @attrs.define(kw_only=True, slots=True)
 class NestedAreaSearch(NestedArea):
-    client: "Client"
+    client: "Client" = attrs.field(repr=False)
 
     id_: str = attrs.field(repr=True)
 
@@ -37,7 +37,7 @@ class NestedAreaSearch(NestedArea):
 
 @attrs.define(kw_only=True, slots=True)
 class AreaSearch(abc.ABC):
-    client: Client
+    client: Client = attrs.field(repr=False)
 
     areas: t.List[NestedAreaSearch]
 

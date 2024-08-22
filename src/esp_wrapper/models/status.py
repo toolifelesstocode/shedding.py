@@ -18,7 +18,7 @@ __all__: t.Sequence[str] = (
 
 @attrs.define(kw_only=True, slots=True)
 class Stage(abc.ABC):
-    client: "Client"
+    client: "Client" = attrs.field(repr=False)
 
     stage: int = attrs.field(repr=True)
     stage_start_timestamp: datetime.datetime = attrs.field(repr=False)
@@ -40,7 +40,7 @@ class Stage(abc.ABC):
 
 @attrs.define(kw_only=True, slots=True)
 class StatusRegion(abc.ABC):
-    client: "Client"
+    client: "Client" = attrs.field(repr=False)
 
     name: str = attrs.field(repr=True)
     next_stages: t.List[Stage] = attrs.field(repr=False)
@@ -66,7 +66,7 @@ class StatusRegion(abc.ABC):
 
 @attrs.define(kw_only=True, slots=True)
 class NestedStatus(abc.ABC):
-    client: "Client"
+    client: "Client" = attrs.field(repr=False)
 
     cape_town: StatusRegion = attrs.field(repr=False)
     eskom: StatusRegion = attrs.field(repr=False)
@@ -86,7 +86,7 @@ class NestedStatus(abc.ABC):
 
 @attrs.define(kw_only=True, slots=True)
 class Status(abc.ABC):
-    client: "Client"
+    client: "Client" = attrs.field(repr=False)
 
     status: NestedStatus = attrs.field(repr=False)
 

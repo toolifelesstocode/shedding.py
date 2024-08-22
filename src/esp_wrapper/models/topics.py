@@ -16,7 +16,7 @@ __all__: t.Sequence[str] = (
 
 @attrs.define(kw_only=True, slots=True)
 class NestedNearbyTopic(abc.ABC):
-    client: "Client"
+    client: "Client" = attrs.field(repr=False)
 
     active: datetime.datetime = attrs.field(repr=True)
     body: str = attrs.field(repr=False)
@@ -44,7 +44,7 @@ class NestedNearbyTopic(abc.ABC):
 
 @attrs.define(kw_only=True, slots=True)
 class NearbyTopic(abc.ABC):
-    client: "Client"
+    client: "Client" = attrs.field(repr=False)
 
     topics: t.List[NestedNearbyTopic] = attrs.field(repr=False)
 

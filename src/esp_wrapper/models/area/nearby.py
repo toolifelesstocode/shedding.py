@@ -15,7 +15,7 @@ __all__: t.Sequence[str] = (
 
 @attrs.define(kw_only=True, slots=True)
 class NestedNearbyArea(abc.ABC):
-    client: "Client"
+    client: "Client" = attrs.field(repr=False)
 
     count: int = attrs.field(repr=True)
     id: str = attrs.field(repr=True)
@@ -39,7 +39,7 @@ class NestedNearbyArea(abc.ABC):
 
 @attrs.define(kw_only=True, slots=True)
 class NearbyArea(abc.ABC):
-    client: Client
+    client: Client = attrs.field(repr=False)
 
     areas: t.List[NestedNearbyArea] = attrs.field(repr=True)
 

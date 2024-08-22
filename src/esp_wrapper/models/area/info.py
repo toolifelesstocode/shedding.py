@@ -19,7 +19,7 @@ __all__: t.Sequence[str] = (
 
 @attrs.define(kw_only=True, slots=True)
 class AreaEvent(abc.ABC):
-    client: "Client"
+    client: "Client" = attrs.field(repr=False)
 
     end: datetime.datetime = attrs.field(repr=True)
     note: str = attrs.field(repr=True)
@@ -41,7 +41,7 @@ class AreaEvent(abc.ABC):
 
 @attrs.define(kw_only=True, slots=True)
 class NestedArea(abc.ABC):
-    client: "Client"
+    client: "Client" = attrs.field(repr=False)
 
     name: str = attrs.field(repr=True)
     region: str = attrs.field(repr=True)
@@ -61,7 +61,7 @@ class NestedArea(abc.ABC):
 
 @attrs.define(kw_only=True, slots=True)
 class AreaScheduleDay(abc.ABC):
-    client: "Client"
+    client: "Client" = attrs.field(repr=False)
 
     date: datetime.date = attrs.field(repr=True)
     name: str = attrs.field(repr=True)
@@ -83,7 +83,7 @@ class AreaScheduleDay(abc.ABC):
 
 @attrs.define(kw_only=True, slots=True)
 class AreaSchedule(abc.ABC):
-    client: Client
+    client: Client = attrs.field(repr=False)
 
     days: t.List[AreaScheduleDay] = attrs.field(repr=True)
     source: str = attrs.field(repr=True)
@@ -103,7 +103,7 @@ class AreaSchedule(abc.ABC):
 
 @attrs.define(kw_only=True, slots=True)
 class Area(abc.ABC):
-    client: "Client"
+    client: "Client" = attrs.field(repr=False)
 
     events: t.List[AreaEvent] = attrs.field(repr=True)
     info: "NestedArea" = attrs.field(repr=True)
