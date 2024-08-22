@@ -60,4 +60,4 @@ class NearbyArea(abc.ABC):
         params = {"lat": lat, "lon": lon}
         response = await self.client.request("GET", "/areas_nearby", params=params)
 
-        return NearbyArea.from_payload(self.client, response)
+        return self.from_payload(self.client, response)

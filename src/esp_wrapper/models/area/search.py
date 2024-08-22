@@ -58,4 +58,4 @@ class AreaSearch(abc.ABC):
         params = {"text": text}
         response = await self.client.request("GET", "/areas_search", params=params)
 
-        return AreaSearch.from_payload(self.client, response)
+        return self.from_payload(self.client, response)

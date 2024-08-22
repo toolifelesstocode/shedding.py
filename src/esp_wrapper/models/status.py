@@ -106,4 +106,4 @@ class Status(abc.ABC):
     ):
         response = await self.client.request("GET", "/status")
 
-        return NestedStatus.from_payload(self.client, response)
+        return self.from_payload(self.client, response)

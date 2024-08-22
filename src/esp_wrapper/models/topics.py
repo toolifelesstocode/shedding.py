@@ -66,4 +66,4 @@ class NearbyTopic(abc.ABC):
         params = {"lat": lat, "lon": lon}
         response = await self.client.request("GET", "/topics_nearby", params=params)
 
-        return NestedNearbyTopic.from_payload(self.client, response)
+        return self.from_payload(self.client, response)

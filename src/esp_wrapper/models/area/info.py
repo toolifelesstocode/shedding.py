@@ -128,4 +128,4 @@ class Area(abc.ABC):
         params = {"id": id}
         response = await self.client.request("GET", "/area", params=params)
 
-        return Area.from_payload(self.client, response)
+        return self.from_payload(self.client, response)

@@ -58,4 +58,4 @@ class Allowance(abc.ABC):
     async def fetch_allowance(self):
         response = await self.client.request("GET", "/api_allowance")
 
-        return NestedAllowance.from_payload(self.client, response)
+        return self.from_payload(self.client, response)
