@@ -174,7 +174,6 @@ class Status(BaseStatus):
 
     async def fetch_status(
         self,
-        area: t.Optional[t.Literal["capetown", "eskom"]] = None,
     ):
         response = await self.client.request("GET", "/status")
 
