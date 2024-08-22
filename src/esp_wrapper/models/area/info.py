@@ -11,6 +11,19 @@ from ... import types
 if t.TYPE_CHECKING:
     from ...api.client import Client
 
+__all__: t.Sequence[str] = (
+    "BaseAreaEvent",
+    "AreaEvent",
+    "BaseNestedArea",
+    "NestedArea",
+    "BaseAreaScheduleDay",
+    "AreaScheduleDay",
+    "BaseAreaSchedule",
+    "AreaSchedule",
+    "BaseArea",
+    "Area",
+)
+
 
 class BaseAreaEvent(abc.ABC):
     __slots__ = ()
