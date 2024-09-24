@@ -28,7 +28,7 @@ class NestedNearbyTopic(abc.ABC):
     @classmethod
     def from_payload(
         cls: type[te.Self],
-        client: Client,
+        client: "Client",
         payload: "types.NestedNearbyTopicInformation",
     ) -> te.Self:
         return cls(

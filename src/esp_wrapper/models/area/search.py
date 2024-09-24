@@ -37,7 +37,7 @@ class NestedAreaSearch(NestedArea):
 
 @attrs.define(kw_only=True, slots=True)
 class AreaSearch(abc.ABC):
-    client: Client = attrs.field(repr=False)
+    client: "Client" = attrs.field(repr=False)
 
     areas: t.List[NestedAreaSearch]
 

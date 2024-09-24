@@ -28,7 +28,7 @@ class AreaEvent(abc.ABC):
     @classmethod
     def from_payload(
         cls: type[te.Self],
-        client: Client,
+        client: "Client",
         payload: "types.AreaEvent",
     ) -> te.Self:
         return cls(
@@ -83,7 +83,7 @@ class AreaScheduleDay(abc.ABC):
 
 @attrs.define(kw_only=True, slots=True)
 class AreaSchedule(abc.ABC):
-    client: Client = attrs.field(repr=False)
+    client: "Client" = attrs.field(repr=False)
 
     days: t.List[AreaScheduleDay] = attrs.field(repr=True)
     source: str = attrs.field(repr=True)

@@ -39,7 +39,7 @@ class NestedNearbyArea(abc.ABC):
 
 @attrs.define(kw_only=True, slots=True)
 class NearbyArea(abc.ABC):
-    client: Client = attrs.field(repr=False)
+    client: "Client" = attrs.field(repr=False)
 
     areas: t.List[NestedNearbyArea] = attrs.field(repr=True)
 
